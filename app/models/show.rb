@@ -5,7 +5,8 @@ class Show < ActiveRecord::Base
     end
 
     def self.most_popular_show
-        self.all.find {|show| self.highest_rating == show.rating} 
+        self.where("rating = ?", self.highest_rating).first 
+        #self.all.find {|show| self.highest_rating == show.rating} 
     end
 
     def self.lowest_rating
@@ -13,11 +14,12 @@ class Show < ActiveRecord::Base
     end
 
     def self.least_popular_show
-        self.all.find {|show| self.lowest_rating == show.rating}
+        self.where("rating = ?", self.lowest_rating).first 
+        #self.all.find {|show| self.lowest_rating == show.rating}
     end 
 
     def self.ratings_sum
-        self.all.sum {|show| show.rating}
+        self.sum(:rating)
     end
 
     def self.popular_shows
@@ -25,6 +27,7 @@ class Show < ActiveRecord::Base
     end
 
     def self.shows_by_alphabetical_order
-        self.order("name ASC")
+        self.order(:name)
+        #self.order("name ASC")
     end
 end
